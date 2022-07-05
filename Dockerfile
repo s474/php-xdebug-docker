@@ -1,52 +1,19 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
+MAINTAINER Przemek Szalko <przemek@mobtitude.com>
 
-# system dependecies
+# php intl extension
 RUN apt-get update \
- && apt-get install -y \
- git \
- libssl-dev \
- libmcrypt-dev \
- libicu-dev \
- libpq-dev \
- libjpeg62-turbo-dev \
- libjpeg-dev  \
- libpng-dev \
- zlib1g-dev \
- libonig-dev \
- libxml2-dev \
- libzip-dev \
- unzip
+    && apt-get install -y libicu-dev \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install pdo_mysql \
+    && docker-php-source delete \
+    && apt-get remove -y libicu-dev \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# PHP dependencies
-RUN docker-php-ext-install \
- gd \
- intl \
- mbstring \
- pdo \
- pdo_mysql \
- mysqli \
- zip
+RUN pecl channel-update pecl.php.net \
+	&& pecl install xdebug-3.1.3 \
+	&& curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Xdebug
-RUN pecl install xdebug \
- && docker-php-ext-enable xdebug \
- && echo 'zend_extension=xdebug' >> /usr/local/etc/php/conf.d/xdebug.ini \
- && echo 'xdebug.mode=develop,debug' >> /usr/local/etc/php/conf.d/xdebug.ini \
- && echo 'xdebug.client_host=host.docker.internal' >> /usr/local/etc/php/conf.d/xdebug.ini \
- && echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/xdebug.ini \
- && echo 'xdebug.discover_client_host=1' >> /usr/local/etc/php/conf.d/xdebug.ini
- #&& echo 'xdebug.remote_autostart=0' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_enable=1' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_host=host.docker.internal' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_port=9000' >>  /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_cookie_expire_time=36000' >>  /usr/local/etc/php/conf.d/xdebug.ini
-
-# Apache
-RUN a2enmod rewrite \
- && echo "ServerName docker" >> /etc/apache2/apache2.conf
-
-# Composer
-RUN curl -sS https://getcomposer.org/installer | php && \
- mv composer.phar /usr/local/bin/composer
-
-WORKDIR /var/www/public
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
