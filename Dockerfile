@@ -34,14 +34,7 @@ RUN pecl install xdebug \
  && echo 'xdebug.mode=develop,debug' >> /usr/local/etc/php/conf.d/xdebug.ini \
  && echo 'xdebug.client_host=host.docker.internal' >> /usr/local/etc/php/conf.d/xdebug.ini \
  && echo 'xdebug.start_with_request=yes' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.discover_client_host=1' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.client_port=9003' >> /usr/local/etc/php/conf.d/xdebug.ini
  && echo 'xdebug.idekey="netbeans-xdebug"' >> /usr/local/etc/php/conf.d/xdebug.ini
- #&& echo 'xdebug.remote_autostart=0' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_enable=1' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_host=host.docker.internal' >> /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_port=9000' >>  /usr/local/etc/php/conf.d/xdebug.ini \
- #&& echo 'xdebug.remote_cookie_expire_time=36000' >>  /usr/local/etc/php/conf.d/xdebug.ini
 
 # Apache
 RUN a2enmod rewrite \
