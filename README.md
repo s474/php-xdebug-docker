@@ -1,6 +1,6 @@
 # php-xdebug-docker
 
-Docker setup for dev environment, with PHP and Xdebug.
+Docker setup for dev environment to use IDE running on host, with PHP and Xdebug.
 
 To install - clone this repo or download zip, then in project root folder.
 
