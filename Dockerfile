@@ -3,29 +3,29 @@ FROM php:7.4-apache
 # system dependecies
 RUN apt-get update \
  && apt-get install -y \
- git \
- libssl-dev \
- libmcrypt-dev \
- libicu-dev \
- libpq-dev \
- libjpeg62-turbo-dev \
- libjpeg-dev  \
- libpng-dev \
- zlib1g-dev \
- libonig-dev \
- libxml2-dev \
- libzip-dev \
- unzip
+ git
+ #libssl-dev \
+ #libmcrypt-dev \
+ #libicu-dev \
+ #libpq-dev \
+ #libjpeg62-turbo-dev \
+ #libjpeg-dev  \
+ #libpng-dev \
+ #zlib1g-dev \
+ #libonig-dev \
+ #libxml2-dev \
+ #libzip-dev \
+ #unzip
 
 # PHP dependencies
-RUN docker-php-ext-install \
- gd \
- intl \
- mbstring \
- pdo \
- pdo_mysql \
- mysqli \
- zip
+#RUN docker-php-ext-install
+ #gd \
+ #intl \
+ #mbstring \
+ #pdo \
+ #pdo_mysql \
+ #mysqli \
+ #zip
 
 # Xdebug
 RUN pecl install xdebug \
