@@ -1,4 +1,4 @@
-FROM php:8.1-apache
+FROM php:8.1-fpm
 
 # system dependecies
 RUN apt-get update \
@@ -38,12 +38,8 @@ RUN pecl install xdebug \
  && echo 'output_buffering=0' >> /usr/local/etc/php/conf.d/custom.ini \
  && echo 'implicit_flush=on' >> /usr/local/etc/php/conf.d/custom.ini
 
-# Apache
-RUN a2enmod rewrite \
- && echo "ServerName docker" >> /etc/apache2/apache2.conf
-
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php && \
  mv composer.phar /usr/local/bin/composer
 
-WORKDIR /var/www/public
+WORKDIR /var/www/html
